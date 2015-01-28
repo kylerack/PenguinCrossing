@@ -23,12 +23,16 @@
         fin2.src = "images/fin2.png";
         blood.src = "images/blood.png";
 
+        //Penguin Initial location
         var px = 350;
         var py = 540;
+        //Starting penguin location, remains constant
         var px0 = 350;
         var py0 = 540;
+        //Width and height of game board
         var WIDTH = 800;
         var HEIGHT = 600;
+        //Refresh interval
         var interval = 10;
         var canvas;
         var intervalId = 0;
@@ -50,39 +54,34 @@
         {
             switch (evt.keyCode)
             {
-                case 38:  /* Up arrow was pressed */
+                case 38:  // Up arrow pressed
 
-                    if( py > 5 )   		// can we go up if yes
+                    if( py > 5 )
                     {
-                        py -= 10; // GO UP
+                        py -= 10; // Go up
                     }
                     break;
 
-                case 40:  /* Down arrow was pressed */
-                    if	 (py < canvas.height - 50)  // are we below the floor?
+                case 40:  // Down arrow pressed
+                    if	 (py < canvas.height - 50)
                     {
-                        py += 10;  // Go DOWN
+                        py += 10;  // Go down
                     }
                     break;
-
-                case 37:  /* Left arrow was pressed */
+                case 37:  // Left arrow pressed
                     if ( px > -20 )
                     {
-                        px -= 10; 			// Go LEFT
+                        px -= 10; 			// Go left
                     }
                     break;
-                case 39:  /* Right arrow was pressed */
+                case 39:  // Right arrow pressed
                     if (px < canvas.width - 90)
                     {
-                        px += 10; // Go RIGHT
+                        px += 10; // Go right
                     }
                     break;
-
-
             } // end switch
         } // end function
-
-
 
         function init()
         {
@@ -101,7 +100,7 @@
         }
 
 
-
+        //Draws elements on game board
         function draw()
         {
             ctx.drawImage(board, 0, 0);
@@ -112,7 +111,7 @@
             detect();
             status();
         }
-
+        //Controls logic for the 3 sharks
         function shark(){
             //Shark a movement
             var rspeeda = Math.floor(Math.random() * 15) + 1;
@@ -142,49 +141,48 @@
                 fxc -= rspeeda * .95;
             }
         }
-
+        //Game logic for detecting game events
         function detect(){
+            //Shark 1 collision detection
             if ( ( Math.abs(py - fya) < 50) && (Math.abs(px - fxa) < 50) ){
+                score -= 25;
                 ctx.drawImage(blood,px,py);
                 ctx.drawImage(penguin, px, py);
                 alert("Sorry, you didn't swim fast enough.\nTry again!");
                 px = px0;
                 py = py0;
-                score -= 25;
             }
+            //Shark 2 collision detection
             if ( ( Math.abs(py - fyb) < 50) && (Math.abs(px - fxb) < 20) ){
+                score -= 25;
                 ctx.drawImage(blood,px,py);
                 ctx.drawImage(penguin, px, py);
                 alert("Sorry, you didn't swim fast enough.\nTry again!");
                 px = px0;
                 py = py0;
-                score -= 25;
             }
+            //Shark 3 collision detection
             if ( ( Math.abs(py - fyc) < 50) && (Math.abs(px - fxc) < 80) ){
+                score -= 25;
                 ctx.drawImage(blood,px,py);
                 ctx.drawImage(penguin, px, py);
                 alert("Sorry, you didn't swim fast enough.\nTry again!");
                 px = px0;
                 py = py0;
-                score -= 25;
             }
         }
-
+        //Checks to see if the peguin made it home safely
         function status(){
             if (py < 10){
+                score += 100;
                 alert("You made it home, congrats!");
                 px = px0;
                 py = py0;
-                score += 100;
             }
-
         }
-
-
     </script>
 </head>
 
-<!-- HERE we add an explicit call to the draw() function -->
 <body onload="init()">
 <canvas id="canvas" width="800" height="600">
     Your browser does not support the canvas element.
